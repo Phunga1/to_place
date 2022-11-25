@@ -29,13 +29,18 @@ sub= node.create_subscription(
 sub
 
 pub= node.create_publisher(Twist,"cmd_vel", 10)
+node.declare_parameter('x', value=0)
+
+node.declare_parameter('y', value=0)
+
 
 
 speed = Twist() 
 
 goal = Point() #maak een punt aan
-goal.x = -7.0
-goal.y = 5.0
+goal.x = float(node.get_parameter('x').value)
+
+goal.y = float(node.get_parameter('y').value)
 
 r= node.create_rate(4)
 while rclpy.ok():
@@ -52,6 +57,7 @@ while rclpy.ok():
         speed.linear.x=0.0
         speed.angular.z=0.0
         pub.publish(speed)
+        print("robot is op (" + str(x) +"," +str(y)+ ")")
         break
     else:
         speed.linear.x=0.5    #als de robot gedraaid is rij naar voren
