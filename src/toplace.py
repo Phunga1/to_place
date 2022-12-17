@@ -21,7 +21,7 @@ def Robotpos(msg):
     rot_q=msg.pose.pose.orientation #lees de positie en orientatie in van de odometry msg
     
     (roll, pitch, theta)=euler_from_quaternion([rot_q.x, rot_q.y, rot_q.z, rot_q.w])
-def kak(msg):
+def listen(msg):
     global goalx
     global goaly
     
@@ -36,7 +36,7 @@ sub= node.create_subscription(
     Odometry, 'odom', Robotpos, 10
 )
 sub
-sub2=node.create_subscription(Point, 'goalxy',kak, 10)
+sub2=node.create_subscription(Point, 'goalxy',listen, 10)
 sub2
 pub= node.create_publisher(Twist,"cmd_vel", 10)
 node.declare_parameter('x', value=0)
