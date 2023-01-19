@@ -38,7 +38,7 @@ sub= node.create_subscription(
 sub
 sub2=node.create_subscription(Point, 'goalxy',listen, 10)
 sub2
-pub= node.create_publisher(Twist,"cmd_vel", 10)
+pub= node.create_publisher(Twist,"diff_cont/cmd_vel_unstamped", 10)
 node.declare_parameter('x', value=0)
 
 node.declare_parameter('y', value=0)
@@ -62,7 +62,7 @@ while rclpy.ok():
 
     if abs(angle_to_goal - theta) > 0.1:   #robot naar punt laten draaien
         speed.linear.x=0.0
-        speed.angular.z=0.4
+        speed.angular.z=0.2
     elif math.sqrt(inc_x*inc_x + inc_y*inc_y)<0.1: #stop als de robot bij het punt is
         speed.linear.x=0.0
         speed.angular.z=0.0
@@ -70,7 +70,7 @@ while rclpy.ok():
         print("robot is op (" + str(x) +"," +str(y)+ ")")
         
     else:
-        speed.linear.x=0.7    #als de robot gedraaid is rij naar voren
+        speed.linear.x=0.5    #als de robot gedraaid is rij naar voren
         speed.angular.z=0.0
         
     pub.publish(speed)  # stuur snelheid naar cmd_vel
